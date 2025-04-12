@@ -1,0 +1,38 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Subject:</strong>
+  <%= @lesson.subject %>
+</p>
+
+<p>
+  <strong>Teacher:</strong>
+  <%= @lesson.teacher.email %>
+</p>
+
+<p>
+  <strong>Start time:</strong>
+  <%= @lesson.start_time %>
+</p>
+
+<p>
+  <strong>End time:</strong>
+  <%= @lesson.end_time %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @lesson.status %>
+</p>
+
+<% if current_user.student? %>
+  <% if @enrollment %>
+    <%= button_to 'Unenroll', enrollment_path(@enrollment), method: :delete %>
+  <% elsif @lesson.scheduled? %>
+    <%= button_to 'Enroll', lesson_enrollments_path(@lesson) %>
+  <% end %>
+<% elsif current_user.teacher? && @lesson.teacher == current_user %>
+  <%= link_to 'Edit', edit_lesson_path(@lesson) %> |
+<% end %>
+
+<%= link_to 'Back', lessons_path %>

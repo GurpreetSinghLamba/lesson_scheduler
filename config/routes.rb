@@ -1,6 +1,15 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  devise_for :users
+  
+  resources :lessons do
+    resources :enrollments, only: [:create]
+  end
+  resources :enrollments, only: [:destroy]
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+  namespace :api do
+    resources :lessons, only: [:index]
+    resources :enrollments, only: [:create, :destroy]
+  end
+
+  root "lessons#index"
 end
